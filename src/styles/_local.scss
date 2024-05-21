@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Bitter:wght@100..900&family=Roboto:wght@400..700&display=swap");
+
+html {
+  font-family: "Montserrat", sans-serif;
+}
+
+@mixin line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.d-none {
+  display: none;
+}
+// Components loader
+@import "components/button";
+@import "components/card";
+@import "components/menu";
+
+// Page loader
+@import "pages/home";

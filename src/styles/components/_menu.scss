@@ -1,0 +1,31 @@
+.menu {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem;
+
+  border-bottom: 1px dashed #ededed;
+
+  span:nth-child(2) {
+    font-size: 12px;
+    color: #8b8b8b;
+    font-weight: 500;
+  }
+}
+
+header {
+  font-family: "Bitter", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  h1 {
+    font-weight: 800;
+    font-size: 54px;
+    margin-bottom: 0;
+  }
+  p {
+    font-family: "Montserrat";
+    font-weight: 500;
+  }
+}

@@ -6,7 +6,7 @@ import {
   setSearchKeyword,
   setFilters,
 } from "../../store/slices/articlesSlice";
-import { SearchBar, Filter, ArticleList } from "../components";
+import { SearchBar, Filter, ArticleList, Header } from "../components";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -22,10 +22,13 @@ const Home = () => {
 
   return (
     <div>
-      <SearchBar
-        setSearchKeyword={(keyword) => dispatch(setSearchKeyword(keyword))}
-      />
-      <Filter setFilters={(filters) => dispatch(setFilters(filters))} />
+      <Header />
+      <div style={{ display: "none" }}>
+        <SearchBar
+          setSearchKeyword={(keyword) => dispatch(setSearchKeyword(keyword))}
+        />
+        <Filter setFilters={(filters) => dispatch(setFilters(filters))} />
+      </div>
       {status === "loading" && <p>Loading...</p>}
       {status === "failed" && <p>Error: {error}</p>}
       <ArticleList articles={articles} />
