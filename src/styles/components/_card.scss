@@ -1,12 +1,13 @@
 .card-wrapper {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: center;
   padding: 1rem;
   width: 70%;
   margin: auto;
   margin-top: 2rem;
-  gap: 10px;
+  gap: 10px 20px;
+  // border: 1px solid red;
 }
 
 .card {

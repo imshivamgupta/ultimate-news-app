@@ -5,8 +5,8 @@ import { fetchArticles, fetchFilters } from "../../services/api";
 //Pull all the articles in once from endpoint
 export const fetchArticlesAsync = createAsyncThunk(
   "articles/fetchArticles",
-  async ({ query, preferences }) => {
-    const response = await fetchArticles(query, preferences);
+  async ({ query, filters }) => {
+    const response = await fetchArticles(query, filters);
     return response;
   }
 );
@@ -23,7 +23,6 @@ export const fetchFiltersAsync = createAsyncThunk(
   "articles/fetchFilters",
   async () => {
     const response = await fetchFilters();
-    console.log(response);
     return response;
   }
 );
@@ -32,7 +31,7 @@ const articlesSlice = createSlice({
   name: "articles",
   initialState: {
     articles: [],
-    searchKeyword: "",
+    searchKeyword: "India",
     filters: {
       authors: [],
       sources: [],
@@ -57,6 +56,12 @@ const articlesSlice = createSlice({
       state.filters.sources = sources;
       state.filters.categories = categories;
     },
+    setPreferences: (state, action) => {
+      state.preferences.author = action.payload.author;
+      state.preferences.source = action.payload.source;
+      state.preferences.category = action.payload.category;
+      state.preferences.date = action.payload.date || "";
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -79,6 +84,7 @@ const articlesSlice = createSlice({
   },
 });
 
-export const { setSearchKeyword, setFilters } = articlesSlice.actions;
+export const { setSearchKeyword, setFilters, setPreferences } =
+  articlesSlice.actions;
 
 export default articlesSlice.reducer;

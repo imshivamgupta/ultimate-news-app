@@ -1,0 +1,65 @@
+.preference-form {
+  font-family: "Montserrat";
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #0000 20.5%, #ffffff 0 29.5%, #0000 0) 0
+      12px,
+    linear-gradient(45deg, #0000 8%, #ffffff 0 17%, #0000 0 58%) 24px 0,
+    linear-gradient(
+      135deg,
+      #0000 8%,
+      #ffffff 0 17%,
+      #0000 0 58%,
+      #ffffff 0 67%,
+      #0000 0
+    ),
+    linear-gradient(
+      45deg,
+      #0000 8%,
+      #ffffff 0 17%,
+      #0000 0 58%,
+      #ffffff 0 67%,
+      #0000 0 83%,
+      #ffffff 0 92%,
+      #0000 0
+    ),
+    #fbfbfb;
+  background-size: 48px 48px;
+
+  border: 1px solid #80808048;
+  border-radius: 8px;
+  //   border: 1px solid black;
+  padding: 2rem 2rem;
+  width: 400px;
+
+  h3 {
+    margin-top: 0;
+  }
+
+  .select-panel {
+    display: flex;
+    flex-direction: column;
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+    label {
+      font-family: "Roboto";
+      margin-bottom: 0.3rem;
+      font-weight: 500;
+      font-size: 12px;
+      font-style: italic;
+      color: rgb(122, 122, 122);
+    }
+    select {
+      font-family: "Roboto";
+      width: 300px;
+      padding: 1rem;
+    }
+  }
+}

@@ -6,6 +6,7 @@ import {
   fetchFiltersAsync,
   setSearchKeyword,
   setFilters,
+  setPreferences,
 } from "../../store/slices/articlesSlice";
 import {
   SearchBar,
@@ -17,33 +18,54 @@ import {
 
 const Home = () => {
   const dispatch = useDispatch();
-  const [pForm, setPform] = useState(false);
+  const [pForm, setPform] = useState(true);
+  const [filtersLoader, setFiltersLoader] = useState(false);
   const { articles, searchKeyword, filters, status, error } = useSelector(
     (state) => state.articles
   );
 
+  const handleSavePreferences = (preferences) => {
+    if (
+      preferences.author != "" &&
+      preferences.source != "" &&
+      preferences.category != ""
+    ) {
+      dispatch(setPreferences(preferences));
+      dispatch(fetchArticlesAsync({ query: "bitcoin", filters: preferences }));
+      setPform(false);
+    }
+  };
+
   useEffect(() => {
     if (searchKeyword) {
       dispatch(fetchArticlesAsync({ query: searchKeyword, filters }));
-    } else if (!pForm) {
+    }
+    if (!filtersLoader) {
       dispatch(fetchFiltersAsync());
-      setPform(true);
+      setFiltersLoader(true);
     }
   }, [searchKeyword, filters, dispatch]);
 
   return (
     <main>
       <Header />
-      <div style={{ display: "none" }}>
-        {/* <SearchBar
+      <div>
+        <SearchBar
           setSearchKeyword={(keyword) => dispatch(setSearchKeyword(keyword))}
+          filters={filters}
         />
-        <Filter setFilters={(filters) => dispatch(setFilters(filters))} /> */}
+        {/* <Filter setFilters={(filters) => dispatch(setFilters(filters))} /> */}
       </div>
-      <PreferencesForm filters={filters} />
       {status === "loading" && <p>Loading...</p>}
       {status === "failed" && <p>Error: {error}</p>}
-      {/* <ArticleList articles={articles} /> */}
+      {pForm && (
+        <PreferencesForm
+          filters={filters}
+          onSavePreferences={handleSavePreferences}
+        />
+      )}
+      <p>News Articles: {articles.length} </p>
+      <ArticleList articles={articles} />
     </main>
   );
 };

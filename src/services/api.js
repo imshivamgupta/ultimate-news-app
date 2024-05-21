@@ -9,10 +9,10 @@ const guardianAPIEndpoint = `https://content.guardianapis.com/search?api-key=${G
 const nytAPIEndpoint = `https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=${NYT_API_KEY}`;
 
 const fetchFromNewsAPI = async (query, filters) => {
-  const { source, category, date } = filters;
+  const { source, author, date } = filters;
   let url = `${newsAPIEndpoint}q=${query}`;
   if (source) url += `&sources=${source}`;
-  if (category) url += `&category=${category}`;
+  if (author) url += `&author=${author}`;
   if (date) url += `&from=${date}`;
 
   const response = await axios.get(`${url}&apiKey=${NEWS_API_KEY}`);
@@ -60,7 +60,8 @@ export const fetchArticles = async (query, filters) => {
     fetchFromNYTAPI(query, filters),
   ]);
 
-  return [...newsAPIArticles, ...guardianArticles, ...nytArticles];
+  // return [...newsAPIArticles, ...guardianArticles, ...nytArticles];
+  return [...newsAPIArticles];
 };
 
 //@TODO Preferences
