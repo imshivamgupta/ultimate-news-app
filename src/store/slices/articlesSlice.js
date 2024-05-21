@@ -1,12 +1,12 @@
 // src/store/slices/articlesSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchArticles } from "../../services/api";
+import { fetchArticles, fetchFilters } from "../../services/api";
 
+//Pull all the articles in once from endpoint
 export const fetchArticlesAsync = createAsyncThunk(
   "articles/fetchArticles",
-  async ({ query, filters }) => {
-    const response = await fetchArticles(query, filters);
-    console.log(response);
+  async ({ query, preferences }) => {
+    const response = await fetchArticles(query, preferences);
     return response;
   }
 );
@@ -19,12 +19,28 @@ export const fetchArticleByIdAsync = createAsyncThunk(
   }
 );
 
+export const fetchFiltersAsync = createAsyncThunk(
+  "articles/fetchFilters",
+  async () => {
+    const response = await fetchFilters();
+    console.log(response);
+    return response;
+  }
+);
+
 const articlesSlice = createSlice({
   name: "articles",
   initialState: {
     articles: [],
-    searchKeyword: "bitcoin",
+    searchKeyword: "",
     filters: {
+      authors: [],
+      sources: [],
+      categories: [],
+    },
+    // Personalized Feature for Home
+    preferences: {
+      author: "",
       source: "",
       category: "",
       date: "",
@@ -36,8 +52,10 @@ const articlesSlice = createSlice({
     setSearchKeyword: (state, action) => {
       state.searchKeyword = action.payload;
     },
-    setFilters: (state, action) => {
-      state.filters = action.payload;
+    setFilters: (state, { authors, sources, categories }) => {
+      state.filters.authors = authors;
+      state.filters.sources = sources;
+      state.filters.categories = categories;
     },
   },
   extraReducers: (builder) => {
@@ -52,6 +70,11 @@ const articlesSlice = createSlice({
       .addCase(fetchArticlesAsync.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+      })
+      .addCase(fetchFiltersAsync.fulfilled, (state, action) => {
+        state.filters.authors = action.payload.authors;
+        state.filters.sources = action.payload.sources;
+        state.filters.categories = action.payload.categories;
       });
   },
 });

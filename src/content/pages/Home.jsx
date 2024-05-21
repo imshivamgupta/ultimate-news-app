@@ -1,15 +1,23 @@
 // src/pages/Home.js
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchArticlesAsync,
+  fetchFiltersAsync,
   setSearchKeyword,
   setFilters,
 } from "../../store/slices/articlesSlice";
-import { SearchBar, Filter, ArticleList, Header } from "../components";
+import {
+  SearchBar,
+  Filter,
+  ArticleList,
+  Header,
+  PreferencesForm,
+} from "../components";
 
 const Home = () => {
   const dispatch = useDispatch();
+  const [pForm, setPform] = useState(false);
   const { articles, searchKeyword, filters, status, error } = useSelector(
     (state) => state.articles
   );
@@ -17,22 +25,26 @@ const Home = () => {
   useEffect(() => {
     if (searchKeyword) {
       dispatch(fetchArticlesAsync({ query: searchKeyword, filters }));
+    } else if (!pForm) {
+      dispatch(fetchFiltersAsync());
+      setPform(true);
     }
   }, [searchKeyword, filters, dispatch]);
 
   return (
-    <div>
+    <main>
       <Header />
       <div style={{ display: "none" }}>
-        <SearchBar
+        {/* <SearchBar
           setSearchKeyword={(keyword) => dispatch(setSearchKeyword(keyword))}
         />
-        <Filter setFilters={(filters) => dispatch(setFilters(filters))} />
+        <Filter setFilters={(filters) => dispatch(setFilters(filters))} /> */}
       </div>
+      <PreferencesForm filters={filters} />
       {status === "loading" && <p>Loading...</p>}
       {status === "failed" && <p>Error: {error}</p>}
-      <ArticleList articles={articles} />
-    </div>
+      {/* <ArticleList articles={articles} /> */}
+    </main>
   );
 };
 

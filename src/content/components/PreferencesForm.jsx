@@ -1,65 +1,103 @@
-// src/components/PreferencesForm.js
+// src/components/PreferenceForm.js
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPreferences } from "../../store/slices/preferencesSlice";
+// import {
+//   setAuthors,
+//   setSources,
+//   setCategories,
+// } from "../store/slices/preferencesSlice";
 
-const PreferencesForm = () => {
+const PreferenceForm = ({ filters }) => {
   const dispatch = useDispatch();
-  const preferences = useSelector((state) => state.preferences);
+  // const { list: authors, status: authorStatus } = useSelector(
+  //   (state) => state.authors
+  // );
+  // const { list: sources, status: sourceStatus } = useSelector(
+  //   (state) => state.sources
+  // );
+  // const { list: categories, status: categoryStatus } = useSelector(
+  //   (state) => state.categories
+  // );
 
-  const [sources, setSourcesState] = useState(preferences.sources.join(", "));
-  const [categories, setCategoriesState] = useState(
-    preferences.categories.join(", ")
-  );
-  const [authors, setAuthorsState] = useState(preferences.authors.join(", "));
+  // const selectedAuthors = useSelector((state) => state.preferences.authors);
+  // const selectedSources = useSelector((state) => state.preferences.sources);
+  // const selectedCategories = useSelector(
+  //   (state) => state.preferences.categories
+  // );
 
-  useEffect(() => {
-    const savedPreferences = JSON.parse(localStorage.getItem("preferences"));
-    if (savedPreferences) {
-      dispatch(setPreferences(savedPreferences));
-    }
-  }, [dispatch]);
+  // const [authorSelections, setAuthorSelections] = useState([]);
+  // const [sourceSelections, setSourceSelections] = useState([]);
+  // const [categorySelections, setCategorySelections] = useState([]);
 
-  const handleSave = () => {
-    const newPreferences = {
-      sources: sources.split(",").map((s) => s.trim()),
-      categories: categories.split(",").map((c) => c.trim()),
-      authors: authors.split(",").map((a) => a.trim()),
-    };
-    dispatch(setPreferences(newPreferences));
-    localStorage.setItem("preferences", JSON.stringify(newPreferences));
-  };
+  // useEffect(() => {
+  //   if (authorStatus === "idle") {
+  //     dispatch(fetchAuthorsAsync());
+  //   }
+  //   if (sourceStatus === "idle") {
+  //     dispatch(fetchSourcesAsync());
+  //   }
+  //   if (categoryStatus === "idle") {
+  //     dispatch(fetchCategoriesAsync());
+  //   }
+  //   setAuthorSelections(selectedAuthors);
+  //   setSourceSelections(selectedSources);
+  //   setCategorySelections(selectedCategories);
+  // }, [
+  //   authorStatus,
+  //   sourceStatus,
+  //   categoryStatus,
+  //   dispatch,
+  //   selectedAuthors,
+  //   selectedSources,
+  //   selectedCategories,
+  // ]);
+
+  // const handleAuthorChange = (e) => {
+  //   const { value, checked } = e.target;
+  //   if (checked) {
+  //     setAuthorSelections([...authorSelections, value]);
+  //   } else {
+  //     setAuthorSelections(
+  //       authorSelections.filter((author) => author !== value)
+  //     );
+  //   }
+  // };
+
+  // const handleSourceChange = (e) => {
+  //   const { value, checked } = e.target;
+  //   if (checked) {
+  //     setSourceSelections([...sourceSelections, value]);
+  //   } else {
+  //     setSourceSelections(
+  //       sourceSelections.filter((source) => source !== value)
+  //     );
+  //   }
+  // };
+
+  // const handleCategoryChange = (e) => {
+  //   const { value, checked } = e.target;
+  //   if (checked) {
+  //     setCategorySelections([...categorySelections, value]);
+  //   } else {
+  //     setCategorySelections(
+  //       categorySelections.filter((category) => category !== value)
+  //     );
+  //   }
+  // };
+
+  // const handleSavePreferences = () => {
+  //   dispatch(setAuthors(authorSelections));
+  //   dispatch(setSources(sourceSelections));
+  //   dispatch(setCategories(categorySelections));
+  // };
 
   return (
     <div>
-      <h2>Customize Your News Feed</h2>
-      <div>
-        <h3>Sources</h3>
-        <input
-          type="text"
-          value={sources}
-          onChange={(e) => setSourcesState(e.target.value)}
-        />
-      </div>
-      <div>
-        <h3>Categories</h3>
-        <input
-          type="text"
-          value={categories}
-          onChange={(e) => setCategoriesState(e.target.value)}
-        />
-      </div>
-      <div>
-        <h3>Authors</h3>
-        <input
-          type="text"
-          value={authors}
-          onChange={(e) => setAuthorsState(e.target.value)}
-        />
-      </div>
-      <button onClick={handleSave}>Save Preferences</button>
+      <h3>Select Preferred Authors</h3>
+
+      <button>Save Preferences</button>
     </div>
   );
 };
 
-export default PreferencesForm;
+export default PreferenceForm;

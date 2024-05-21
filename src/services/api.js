@@ -62,3 +62,47 @@ export const fetchArticles = async (query, filters) => {
 
   return [...newsAPIArticles, ...guardianArticles, ...nytArticles];
 };
+
+//@TODO Preferences
+const newsAPI = "https://newsapi.org/v2";
+export const fetchAuthors = async () => {
+  const url = `${newsAPI}/everything?q=latest&apiKey=${NEWS_API_KEY}`;
+  const response = await axios.get(url);
+  const articles = response.data.articles;
+  const authors = articles
+    .map((article) => article.author)
+    .filter((author, index, self) => author && self.indexOf(author) === index);
+  return authors;
+};
+
+export const fetchSources = async () => {
+  const url = `${newsAPI}/sources?&apiKey=${NEWS_API_KEY}`;
+  const response = await axios.get(url);
+  return response.data.sources.map((source) => source.id);
+};
+
+export const fetchCategories = async () => {
+  return [
+    "business",
+    "entertainment",
+    "general",
+    "health",
+    "science",
+    "sports",
+    "technology",
+  ];
+};
+
+export const fetchFilters = async () => {
+  const [authors, sources, categories] = await Promise.all([
+    fetchAuthors(),
+    fetchSources(),
+    fetchCategories(),
+  ]);
+
+  return {
+    authors: [...authors],
+    sources: [...sources],
+    categories: [...categories],
+  };
+};
