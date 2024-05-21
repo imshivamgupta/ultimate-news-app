@@ -21,27 +21,18 @@ const PreferenceForm = ({ filters, onSavePreferences }) => {
 
   const handleSavePreferences = (e) => {
     e.preventDefault();
-
-    // dispatch(
-    //   setPreferences({
-    //     author: authorSelections,
-    //     source: sourceSelections,
-    //     category: categorySelections,
-    //   })
-    // );
-    const preferences = {
+    const newPreferences = {
       author: authorSelections,
       source: sourceSelections,
       category: categorySelections,
     };
-    onSavePreferences(preferences);
+    localStorage.setItem("preferences", JSON.stringify(newPreferences));
+    onSavePreferences(newPreferences);
   };
 
   return (
     <form className="preference-form" onSubmit={handleSavePreferences}>
-      <h3>
-        Set Your Preferences {filters.authors.length} {filters.sources.length}
-      </h3>
+      <h3>Set Your Preferences</h3>
       <Select
         label="Select Preferred Authors"
         options={filters.authors}

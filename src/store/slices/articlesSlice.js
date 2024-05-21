@@ -31,7 +31,7 @@ const articlesSlice = createSlice({
   name: "articles",
   initialState: {
     articles: [],
-    searchKeyword: "India",
+    searchKeyword: "Bitcoin",
     filters: {
       authors: [],
       sources: [],

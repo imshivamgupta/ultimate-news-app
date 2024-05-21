@@ -20,9 +20,9 @@ const Home = () => {
   const dispatch = useDispatch();
   const [pForm, setPform] = useState(true);
   const [filtersLoader, setFiltersLoader] = useState(false);
-  const { articles, searchKeyword, filters, status, error } = useSelector(
-    (state) => state.articles
-  );
+  const [preferencesExist, setPreferencesExist] = useState(false);
+  const { articles, searchKeyword, filters, status, error, preferences } =
+    useSelector((state) => state.articles);
 
   const handleSavePreferences = (preferences) => {
     if (
@@ -31,20 +31,30 @@ const Home = () => {
       preferences.category != ""
     ) {
       dispatch(setPreferences(preferences));
-      dispatch(fetchArticlesAsync({ query: "bitcoin", filters: preferences }));
+      dispatch(
+        fetchArticlesAsync({ query: searchKeyword, filters: preferences })
+      );
       setPform(false);
     }
   };
 
   useEffect(() => {
-    if (searchKeyword) {
-      dispatch(fetchArticlesAsync({ query: searchKeyword, filters }));
-    }
+    // if (searchKeyword) {
+    //   dispatch(fetchArticlesAsync({ query: searchKeyword, filters }));
+    // }
     if (!filtersLoader) {
       dispatch(fetchFiltersAsync());
       setFiltersLoader(true);
     }
-  }, [searchKeyword, filters, dispatch]);
+
+    const savedPreferences = JSON.parse(localStorage.getItem("preferences"));
+    if (savedPreferences && !preferencesExist) {
+      dispatch(setPreferences(savedPreferences));
+      dispatch(
+        fetchArticlesAsync({ query: searchKeyword, filters: savedPreferences })
+      );
+    }
+  }, [searchKeyword, filters, dispatch, preferencesExist]);
 
   return (
     <main>
