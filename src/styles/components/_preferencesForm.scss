@@ -63,6 +63,11 @@
     }
   }
 
+  p {
+    font-size: 12px;
+    cursor: pointer;
+  }
+
   @include mobile {
     width: 80%;
     padding: 1rem;

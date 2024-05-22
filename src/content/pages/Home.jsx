@@ -48,6 +48,13 @@ const Home = () => {
     }
   };
 
+  const handleClearPreferences = (preferences) => {
+    dispatch(setShowPreferencePopup(false));
+    dispatch(setPreferences(preferences));
+    dispatch(
+      fetchArticlesAsync({ query: searchKeyword, filters: preferences })
+    );
+  };
   useEffect(() => {
     if (searchKeyword) {
       dispatch(
@@ -60,12 +67,12 @@ const Home = () => {
     }
 
     const savedPreferences = JSON.parse(localStorage.getItem("preferences"));
-    if (savedPreferences && showPreferencePopup) {
+    if (savedPreferences) {
+      dispatch(setShowPreferencePopup(false));
       dispatch(setPreferences(savedPreferences));
       dispatch(
         fetchArticlesAsync({ query: searchKeyword, filters: savedPreferences })
       );
-      dispatch(setShowPreferencePopup(false));
     } else {
       // Initial Load []
       dispatch(
@@ -83,11 +90,12 @@ const Home = () => {
         filters={filters}
       />
       {status === "loading" && <Loader />}
-      {status === "failed" && <p>Error: {error}</p>}
+      {status === "failed" && <p>Error: {error}. Quota exhausted</p>}
       {showPreferencePopup && (
         <PreferencesForm
           filters={filters}
           onSavePreferences={handleSavePreferences}
+          clearPrefenences={handleClearPreferences}
         />
       )}
       <p>

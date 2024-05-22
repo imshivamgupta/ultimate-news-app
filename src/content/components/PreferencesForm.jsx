@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPreferences } from "../../store/slices/articlesSlice";
 import Select from "./Select";
 
-const PreferenceForm = ({ filters, onSavePreferences }) => {
+const PreferenceForm = ({ filters, onSavePreferences, clearPrefenences }) => {
   const dispatch = useDispatch();
 
   const preferences = useSelector((state) => state.articles.preferences);
@@ -30,6 +30,14 @@ const PreferenceForm = ({ filters, onSavePreferences }) => {
     onSavePreferences(newPreferences);
   };
 
+  const clearLocalStorage = () => {
+    localStorage.removeItem("preferences");
+    clearPrefenences({
+      author: "",
+      source: "",
+      category: "",
+    });
+  };
   return (
     <form className={"preference-form"} onSubmit={handleSavePreferences}>
       <h3>Set Your Preferences</h3>
@@ -53,6 +61,7 @@ const PreferenceForm = ({ filters, onSavePreferences }) => {
         onChange={setCategorySelections}
       />
       <button type="submit">Save Preferences</button>
+      <p onClick={clearLocalStorage}>Clear Settings</p>
     </form>
   );
 };
