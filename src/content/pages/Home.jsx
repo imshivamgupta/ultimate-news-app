@@ -18,6 +18,7 @@ import {
   PreferencesForm,
   Loader,
 } from "../components";
+import { debounce } from "../../services/util";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -35,17 +36,11 @@ const Home = () => {
   } = useSelector((state) => state.articles);
 
   const handleSavePreferences = (preferences) => {
-    if (
-      preferences.author != "" &&
-      preferences.source != "" &&
-      preferences.category != ""
-    ) {
-      dispatch(setPreferences(preferences));
-      dispatch(
-        fetchArticlesAsync({ query: searchKeyword, filters: preferences })
-      );
-      dispatch(setShowPreferencePopup(false));
-    }
+    dispatch(setPreferences(preferences));
+    dispatch(
+      fetchArticlesAsync({ query: searchKeyword, filters: preferences })
+    );
+    dispatch(setShowPreferencePopup(false));
   };
 
   const handleClearPreferences = (preferences) => {
@@ -55,15 +50,17 @@ const Home = () => {
       fetchArticlesAsync({ query: searchKeyword, filters: preferences })
     );
   };
+
+  const handleSearch = (e, p) => {
+    dispatch(setPreferences(p));
+    dispatch(fetchArticlesAsync({ query: e, filters: p }));
+  };
   useEffect(() => {
-    if (searchKeyword) {
-      dispatch(
-        fetchArticlesAsync({ query: searchKeyword, filters: preferences })
-      );
-    }
     if (!filtersLoader) {
-      dispatch(fetchFiltersAsync());
       setFiltersLoader(true);
+      setTimeout(() => {
+        dispatch(fetchFiltersAsync());
+      }, 4000);
     }
 
     const savedPreferences = JSON.parse(localStorage.getItem("preferences"));
@@ -73,24 +70,26 @@ const Home = () => {
       dispatch(
         fetchArticlesAsync({ query: searchKeyword, filters: savedPreferences })
       );
+      // console.log("Local storage full hai");
     } else {
       // Initial Load []
       dispatch(
         fetchArticlesAsync({ query: searchKeyword, filters: preferences })
       );
+      // console.log("Local storage khali hai");
     }
-  }, [searchKeyword, preferences, dispatch, showPreferencePopup]);
+  }, []);
 
   return (
     <main>
       <Header />
       <SearchBar
         visibility={showMenuSearch}
-        setSearchKeyword={(keyword) => dispatch(setSearchKeyword(keyword))}
+        searchKeyword={handleSearch}
         filters={filters}
       />
       {status === "loading" && <Loader />}
-      {status === "failed" && <p>Error: {error}. Quota exhausted</p>}
+      {status === "failed" && <p>Error: {error}</p>}
       {showPreferencePopup && (
         <PreferencesForm
           filters={filters}
@@ -98,9 +97,7 @@ const Home = () => {
           clearPrefenences={handleClearPreferences}
         />
       )}
-      <p>
-        News Articles <sup></sup>
-      </p>
+      <p>News Articles</p>
       <ArticleList articles={articles} />
     </main>
   );

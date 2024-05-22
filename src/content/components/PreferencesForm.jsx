@@ -26,8 +26,15 @@ const PreferenceForm = ({ filters, onSavePreferences, clearPrefenences }) => {
       source: sourceSelections,
       category: categorySelections,
     };
-    localStorage.setItem("preferences", JSON.stringify(newPreferences));
-    onSavePreferences(newPreferences);
+
+    if (
+      authorSelections != "" &&
+      sourceSelections != "" &&
+      categorySelections != ""
+    ) {
+      localStorage.setItem("preferences", JSON.stringify(newPreferences));
+      onSavePreferences(newPreferences);
+    }
   };
 
   const clearLocalStorage = () => {

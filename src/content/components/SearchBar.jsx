@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPreferences } from "../../store/slices/articlesSlice";
 import { IoSearchOutline } from "react-icons/io5";
 
-const SearchBar = ({ setSearchKeyword, filters, visibility }) => {
+const SearchBar = ({ searchKeyword, filters, visibility }) => {
   const [keyword, setKeyword] = useState("");
 
   const dispatch = useDispatch();
@@ -20,11 +20,18 @@ const SearchBar = ({ setSearchKeyword, filters, visibility }) => {
     setSourceSelections(preferences.source || "");
     setCategorySelections(preferences.category || "");
     setSelectedDate(preferences.date || "");
+    console.log(preferences, "here");
   }, [preferences]);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setSearchKeyword(keyword);
+    const p = {
+      source: sourceSelections,
+      category: categorySelections,
+      date: selectedDate,
+    };
+    setPreferences(p);
+    searchKeyword(keyword, p);
   };
 
   return (
