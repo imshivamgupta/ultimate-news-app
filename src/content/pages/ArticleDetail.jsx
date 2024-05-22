@@ -51,14 +51,23 @@ const ArticleDetail = () => {
   }
 
   return (
-    <div>
-      <h1>{article.title}</h1>
-      {article.imageUrl && <img src={article.imageUrl} alt={article.title} />}
-      <p>{article.description}</p>
-      <a href={article.url} target="_blank" rel="noopener noreferrer">
-        Read original article
-      </a>
-    </div>
+    <main>
+      <article>
+        {article.urlToImage && (
+          <img src={article.urlToImage} alt={article.title} />
+        )}
+        <h1>{article.title}</h1>
+        <p className="detail">
+          <span>Source: {article?.source?.name}</span>
+          <span>{article?.author}</span>
+        </p>
+        <p>{article.description}</p>
+        <p>{article.content}</p>
+        <a href={article.url} target="_blank" rel="noopener noreferrer">
+          Goto Original Article
+        </a>
+      </article>
+    </main>
   );
 };
 

@@ -6,7 +6,7 @@ const ArticleList = ({ articles }) => {
   return (
     <div className="card-wrapper">
       {articles.map((article, index) => (
-        <ArticleItem key={index} article={article} />
+        <ArticleItem key={index} article={article} id={index} />
       ))}
     </div>
   );

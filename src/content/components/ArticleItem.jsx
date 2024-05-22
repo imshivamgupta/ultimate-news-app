@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-const ArticleItem = ({ article }) => {
+const ArticleItem = ({ article, id }) => {
   const [imageError, setImageError] = useState(false);
 
   const handleImageError = () => {
@@ -14,7 +14,7 @@ const ArticleItem = ({ article }) => {
 
   return (
     <div className="card card-news">
-      <Link to={`/article/${article.id}`}>
+      <Link to={`/article/${id}`}>
         {(!imageError && (
           <img
             src={article?.urlToImage || "https://picsum.photos/200/300"}

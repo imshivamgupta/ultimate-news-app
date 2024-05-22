@@ -14,7 +14,7 @@ export const fetchArticlesAsync = createAsyncThunk(
 export const fetchArticleByIdAsync = createAsyncThunk(
   "articles/fetchArticleById",
   async (id, { getState }) => {
-    const articles = getState().articles.allArticles;
+    const articles = getState().articles.articles;
     return articles[id] || null;
   }
 );
