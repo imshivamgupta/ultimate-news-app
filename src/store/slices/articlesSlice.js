@@ -44,6 +44,8 @@ const articlesSlice = createSlice({
       category: "",
       date: "",
     },
+    showPreferencePopup: true,
+    showMenuSearch: true,
     status: "idle",
     error: null,
   },
@@ -61,6 +63,12 @@ const articlesSlice = createSlice({
       state.preferences.source = action.payload.source;
       state.preferences.category = action.payload.category;
       state.preferences.date = action.payload.date || "";
+    },
+    setShowPreferencePopup: (state, action) => {
+      state.showPreferencePopup = action.payload;
+    },
+    setShowMenuSearch: (state, action) => {
+      state.showMenuSearch = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -84,7 +92,12 @@ const articlesSlice = createSlice({
   },
 });
 
-export const { setSearchKeyword, setFilters, setPreferences } =
-  articlesSlice.actions;
+export const {
+  setSearchKeyword,
+  setFilters,
+  setPreferences,
+  setShowPreferencePopup,
+  setShowMenuSearch,
+} = articlesSlice.actions;
 
 export default articlesSlice.reducer;

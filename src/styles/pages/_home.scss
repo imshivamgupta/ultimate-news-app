@@ -1,2 +1,19 @@
-.news-wrapper {
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  & > p {
+    width: 70%;
+    margin: auto;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    color: rgba(54, 50, 50, 0.671);
+
+    sup {
+      font-weight: 600;
+    }
+  }
 }

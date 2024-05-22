@@ -7,6 +7,8 @@ import {
   setSearchKeyword,
   setFilters,
   setPreferences,
+  setShowPreferencePopup,
+  setShowMenuSearch,
 } from "../../store/slices/articlesSlice";
 import {
   SearchBar,
@@ -14,15 +16,22 @@ import {
   ArticleList,
   Header,
   PreferencesForm,
+  Loader,
 } from "../components";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const [pForm, setPform] = useState(true);
   const [filtersLoader, setFiltersLoader] = useState(false);
-  const [preferencesExist, setPreferencesExist] = useState(false);
-  const { articles, searchKeyword, filters, status, error, preferences } =
-    useSelector((state) => state.articles);
+  // const [PForm, setPForm] = useEffect
+  const {
+    articles,
+    searchKeyword,
+    filters,
+    status,
+    error,
+    showPreferencePopup,
+    showMenuSearch,
+  } = useSelector((state) => state.articles);
 
   const handleSavePreferences = (preferences) => {
     if (
@@ -34,7 +43,7 @@ const Home = () => {
       dispatch(
         fetchArticlesAsync({ query: searchKeyword, filters: preferences })
       );
-      setPform(false);
+      dispatch(setShowPreferencePopup(false));
     }
   };
 
@@ -48,33 +57,34 @@ const Home = () => {
     }
 
     const savedPreferences = JSON.parse(localStorage.getItem("preferences"));
-    if (savedPreferences && !preferencesExist) {
+    if (savedPreferences && showPreferencePopup) {
       dispatch(setPreferences(savedPreferences));
       dispatch(
         fetchArticlesAsync({ query: searchKeyword, filters: savedPreferences })
       );
+      dispatch(setShowPreferencePopup(false));
     }
-  }, [searchKeyword, filters, dispatch, preferencesExist]);
+  }, [searchKeyword, filters, dispatch, showPreferencePopup]);
 
   return (
     <main>
       <Header />
-      <div>
-        <SearchBar
-          setSearchKeyword={(keyword) => dispatch(setSearchKeyword(keyword))}
-          filters={filters}
-        />
-        {/* <Filter setFilters={(filters) => dispatch(setFilters(filters))} /> */}
-      </div>
-      {status === "loading" && <p>Loading...</p>}
+      <SearchBar
+        visibility={showMenuSearch}
+        setSearchKeyword={(keyword) => dispatch(setSearchKeyword(keyword))}
+        filters={filters}
+      />
+      {status === "loading" && <Loader />}
       {status === "failed" && <p>Error: {error}</p>}
-      {pForm && (
+      {showPreferencePopup && (
         <PreferencesForm
           filters={filters}
           onSavePreferences={handleSavePreferences}
         />
       )}
-      <p>News Articles: {articles.length} </p>
+      <p>
+        News Articles <sup>({articles.length})</sup>{" "}
+      </p>
       <ArticleList articles={articles} />
     </main>
   );

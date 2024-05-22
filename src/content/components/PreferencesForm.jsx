@@ -31,7 +31,7 @@ const PreferenceForm = ({ filters, onSavePreferences }) => {
   };
 
   return (
-    <form className="preference-form" onSubmit={handleSavePreferences}>
+    <form className={"preference-form"} onSubmit={handleSavePreferences}>
       <h3>Set Your Preferences</h3>
       <Select
         label="Select Preferred Authors"

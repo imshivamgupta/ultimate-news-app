@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 
 const ArticleItem = ({ article, link }) => {
   return (
-    <div className={`${article.urlToImage ? "card card-news" : "d-none"}`}>
+    <div className={"card card-news"}>
       <img
-        src={article.urlToImage}
+        src={article?.urlToImage || "https://picsum.photos/200/300"}
         alt={article.title}
         className="article-image"
       />

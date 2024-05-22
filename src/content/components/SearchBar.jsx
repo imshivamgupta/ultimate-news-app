@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPreferences } from "../../store/slices/articlesSlice";
 import { IoSearchOutline } from "react-icons/io5";
 
-const SearchBar = ({ setSearchKeyword, filters }) => {
+const SearchBar = ({ setSearchKeyword, filters, visibility }) => {
   const [keyword, setKeyword] = useState("");
 
   const dispatch = useDispatch();
@@ -28,7 +28,10 @@ const SearchBar = ({ setSearchKeyword, filters }) => {
   };
 
   return (
-    <form className="search-panel" onSubmit={handleSearch}>
+    <form
+      className={`search-panel ${!visibility ? "hide" : ""}`}
+      onSubmit={handleSearch}
+    >
       <div className="filters-panel">
         <Select
           title="Pick Your favorite Source"

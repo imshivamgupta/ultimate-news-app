@@ -4,7 +4,7 @@ const Header = () => {
   return (
     <header>
       <h1>Ultimate News App</h1>
-      <p>Your one place read all the latest news.</p>
+      <p>One place to read all your favourite news.</p>
     </header>
   );
 };

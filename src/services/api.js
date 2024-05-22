@@ -1,4 +1,5 @@
 import axios from "axios";
+import { debounce } from "./util";
 
 const NEWS_API_KEY = import.meta.env.VITE_NEWS_API_KEY;
 const GUARDIAN_API_KEY = import.meta.env.VITE_GUARDIAN_API_KEY;
@@ -60,9 +61,10 @@ export const fetchArticles = async (query, filters) => {
     fetchFromNYTAPI(query, filters),
   ]);
 
-  // return [...newsAPIArticles, ...guardianArticles, ...nytArticles];
-  return [...newsAPIArticles];
+  return [...newsAPIArticles, ...guardianArticles, ...nytArticles];
 };
+
+export const fetchArticlesDebounced = debounce(fetchArticles, 500);
 
 //@TODO Preferences
 const newsAPI = "https://newsapi.org/v2";
