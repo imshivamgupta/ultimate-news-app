@@ -27,6 +27,7 @@ const Home = () => {
     articles,
     searchKeyword,
     filters,
+    preferences,
     status,
     error,
     showPreferencePopup,
@@ -48,9 +49,11 @@ const Home = () => {
   };
 
   useEffect(() => {
-    // if (searchKeyword) {
-    //   dispatch(fetchArticlesAsync({ query: searchKeyword, filters }));
-    // }
+    if (searchKeyword) {
+      dispatch(
+        fetchArticlesAsync({ query: searchKeyword, filters: preferences })
+      );
+    }
     if (!filtersLoader) {
       dispatch(fetchFiltersAsync());
       setFiltersLoader(true);
@@ -63,8 +66,13 @@ const Home = () => {
         fetchArticlesAsync({ query: searchKeyword, filters: savedPreferences })
       );
       dispatch(setShowPreferencePopup(false));
+    } else {
+      // Initial Load []
+      dispatch(
+        fetchArticlesAsync({ query: searchKeyword, filters: preferences })
+      );
     }
-  }, [searchKeyword, filters, dispatch, showPreferencePopup]);
+  }, [searchKeyword, preferences, dispatch, showPreferencePopup]);
 
   return (
     <main>
@@ -83,7 +91,7 @@ const Home = () => {
         />
       )}
       <p>
-        News Articles <sup>({articles.length})</sup>{" "}
+        News Articles <sup></sup>
       </p>
       <ArticleList articles={articles} />
     </main>

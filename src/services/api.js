@@ -69,7 +69,7 @@ export const fetchArticlesDebounced = debounce(fetchArticles, 500);
 //@TODO Preferences
 const newsAPI = "https://newsapi.org/v2";
 export const fetchAuthors = async () => {
-  const url = `${newsAPI}/everything?q=latest&apiKey=${NEWS_API_KEY}`;
+  const url = `${newsAPI}/everything?q=bitcoin&apiKey=${NEWS_API_KEY}`;
   const response = await axios.get(url);
   const articles = response.data.articles;
   const authors = articles

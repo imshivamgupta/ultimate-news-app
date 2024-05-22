@@ -44,7 +44,7 @@ const articlesSlice = createSlice({
       category: "",
       date: "",
     },
-    showPreferencePopup: true,
+    showPreferencePopup: false,
     showMenuSearch: true,
     status: "idle",
     error: null,

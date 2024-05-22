@@ -61,6 +61,7 @@ const SearchBar = ({ setSearchKeyword, filters, visibility }) => {
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           placeholder="Search articles..."
+          required
         />
 
         <button type="submit">
