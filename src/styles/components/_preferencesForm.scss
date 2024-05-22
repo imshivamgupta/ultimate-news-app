@@ -62,4 +62,9 @@
       padding: 1rem;
     }
   }
+
+  @include mobile {
+    width: 80%;
+    padding: 1rem;
+  }
 }

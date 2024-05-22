@@ -14,6 +14,7 @@ const Menu = () => {
   const dispatch = useDispatch();
 
   const handleSettingsClick = () => {
+    localStorage.removeItem("preferences");
     dispatch(setShowPreferencePopup(true));
   };
   const handleMenuClick = () => {

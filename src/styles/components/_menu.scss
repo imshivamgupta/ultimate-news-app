@@ -28,4 +28,10 @@ header {
     font-family: "Montserrat";
     font-weight: 400;
   }
+
+  @include mobile {
+    h1 {
+      font-size: 36px;
+    }
+  }
 }
